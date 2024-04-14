@@ -5,15 +5,12 @@ MARGIN = 10  # pixels
 ROW_SIZE = 10  # pixels
 FONT_SIZE = 1
 FONT_THICKNESS = 1
-TEXT_COLOR = (255, 0, 0)  # red
+TEXT_COLOR = (255, 0, 0)  # redpyr
 
 IMAGE_FILE = 'images\cat_and_dog.jpg'
 
 # visualize는 무시, step1 ~ step5 만 기억하면 됌
-def visualize(
-    image,
-    detection_result
-) -> np.ndarray:
+def visualize(image, detection_result) -> np.ndarray:
   """Draws bounding boxes on the input image and return it.
   Args:
     image: The input RGB image.
@@ -33,10 +30,8 @@ def visualize(
     category_name = category.category_name
     probability = round(category.score, 2)
     result_text = category_name + ' (' + str(probability) + ')'
-    text_location = (MARGIN + bbox.origin_x,
-                     MARGIN + ROW_SIZE + bbox.origin_y)
-    cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
-                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+    text_location = (MARGIN + bbox.origin_x, MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN, FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
 
   return image
 
@@ -58,10 +53,9 @@ from mediapipe.tasks.python import vision
 
 # 모든 태스크에서 가장 기본은 모델을 가져오는 것, 추론기를 만드는 단계
 # STEP 2: Create an ObjectDetector object.
-base_options = python.BaseOptions(model_asset_path='models\efficientdet_lite0.tflite')
-options = vision.ObjectDetectorOptions(base_options=base_options,
-                                       score_threshold=0.5)
-detector = vision.ObjectDetector.create_from_options(options)
+base_options = python.BaseOptions(model_asset_path='models\efficientdet_lite0.tflite') # 모델 경로 설정
+options = vision.ObjectDetectorOptions(base_options=base_options, score_threshold=0.5)  
+detector = vision.ObjectDetector.create_from_options(options) # ObjectDetector
 
 # STEP 3: Load the input image.
 # 대상이 될 이미지 가져오기
@@ -81,6 +75,5 @@ rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
 print('img = ', img)
 print()
 print('rgb_annotated_image = ', rgb_annotated_image)
-# cv2_imshow(rgb_annotated_image)
 cv2.imshow('test', rgb_annotated_image)
 cv2.waitKey(0)
